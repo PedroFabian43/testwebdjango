@@ -1,5 +1,6 @@
 from django.db import models
 import oracledb
+import pymysql
 # Create your models here.
 class Serie:
     def __init__(self):
@@ -15,7 +16,7 @@ class Personaje:
         self.imagen = ""
         self.idSerie = 0
 
-class ServiceSeries:
+class ServiceSeriesOracle:
     def __init__(self):
         self.connection = oracledb.connect(user="system", password="oracle", dsn = "localhost/freepdb1")
 
@@ -35,7 +36,7 @@ class ServiceSeries:
         return listaSeries
     
     def getPersonajeSerie(self, idserie):
-        sql = "select * from personajes where IDSERIE = :idserie"
+        sql = "select * from PERSONAJES where IDSERIE = :idserie"
         cursor = self.connection.cursor()
         cursor.execute(sql, (idserie,))
         listaPersonajes = []
@@ -56,5 +57,44 @@ class ServiceSeries:
         self.connection.commit()
         cursor.close()
         
+class ServiceSeries:
+    def __init__(self):
+        self.connection = pymysql.connect(host='sql7.freesqldatabase.com', port=3306, user='sql7818176', password='FzMNGLTjrq', database='sql7818176')
 
+    def getSeries(self):
+        sql = "select * from SERIES"
+        cursor = self.connection.cursor()
+        cursor.execute(sql)
+        listaSeries = []
+        for row in cursor:
+            serie = Serie()
+            serie.idSerie = row[0]
+            serie.nombre = row[1]
+            serie.imagen = row[2]
+            serie.anyo = row[3]
+            listaSeries.append(serie)
+        cursor.close()
+        return listaSeries
+    
+    def getPersonajeSerie(self, idserie):
+        sql = "select * from PERSONAJES where IDSERIE = %s"
+        cursor = self.connection.cursor()
+        cursor.execute(sql, (idserie,))
+        listaPersonajes = []
+        for row in cursor:
+            p = Personaje()
+            p.idPersonaje = row[0]
+            p.nombre = row[1]
+            p.imagen = row[2]
+            p.idSerie = row[3]
+            listaPersonajes.append(p)
+        cursor.close()
+        return listaPersonajes
+    
+    def insertarPersonaje(self, nombre, img, idserie):
+        sql = "insert into PERSONAJES values ((select MAX(IDPERSONAJE) + 1 from PERSONAJES), %s, %s, %s)"
+        cursor = self.connection.cursor()
+        cursor.execute(sql, (nombre, img, idserie,))
+        self.connection.commit()
+        cursor.close()
     

@@ -25,7 +25,8 @@ SECRET_KEY = 'django-insecure-&py4wr8)ch0%-=e#b66#$vbzq@c6=fz@6*arxrjocu$b0g!por
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# ponemos la url de django por defecto que es 127.0.0.1
+ALLOWED_HOSTS = ["127.0.0.1", "pedrofabian43.pythonanywhere.com"]
 
 
 # Application definition
