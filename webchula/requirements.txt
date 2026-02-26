@@ -1,3 +1,47 @@
 pip install django
 pip install oracledb
 pip install pymysql
+
+git clone URL.git #La URL del repo en mi caso https://github.com/PedroFabian43/testwebdjango.git
+
+#Para actualizarlo
+git pull URL.git #En URL ponemos https://github.com/PedroFabian43/testwebdjango.git o el que toque
+
+
+Debemos crear un entorno virtual de Python 
+un entorno virtual es un lugar aislado en la maquina de trabajo 
+para instalar nuestras librerias solo para nuestra app
+
+#Para crearlo
+python -m venv .venv
+
+#Activamos
+source .venv/bin/activate
+
+Instalamos nuestrar librerias con el pip
+pip install django
+pip install oracledb
+pip install pymysql
+
+# Mi proyecto se llama así testwebdjango
+
+donde el project home pone el usuario/mysite y ponemos usuario/testwebdjango/webchula
+Y tambien cambiamos donde pone el mysite.settings por el de tu web
+
+# region como debe quedar
+    "add your project directory to the sys.path
+    project_home = '/home/Pedrofabian43/testwebdjango/webchula'
+    if project_home not in sys.path:
+        sys.path.insert(0, project_home)
+
+    set environment variable to tell django where your settings.py is
+    os.environ['DJANGO_SETTINGS_MODULE'] = 'webchula.settings'"
+# endregion 
+
+
+/home/Pedrofabian43/testwebdjango/webchula Así debe quedar
+
+#Ahora cambiamos la carpeta donde están los static
+/home/Pedrofabian43/testwebdjango/webchula/television/static
+
+/home/Pedrofabian43/.venv
